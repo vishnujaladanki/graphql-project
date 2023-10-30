@@ -1,0 +1,54 @@
+type User{
+  Id: ID!
+  Name: String!
+  Email: String!
+}
+
+type Company{
+  Id: ID!
+  Name: String!
+  Location: String!
+}
+
+type Job{
+  JobId: ID!
+  Tittle: String!
+  Description: String!
+  CompanyId : Int!
+
+}
+
+input NewUser{
+  Name: String!
+  Email: String!
+}
+
+input NewJob{
+  Tittle: String!
+  Description: String!
+}
+
+input NewCompany{
+  Name: String!
+  Location: String!
+}
+
+type Query{
+  users: [User!]
+
+  user(Id:ID!):User!
+
+  company(Id:ID!):Company!
+
+  companies:[Company!]
+
+  job(JobId:ID!):Job
+
+  jobs: [Job!]
+}
+
+type Mutation{
+  CreateUser(input: NewUser!):User!
+  CreateCompany(input: NewCompany):Company!
+  CreateJob(input: NewJob):Job!
+}
