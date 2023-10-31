@@ -9,25 +9,27 @@ type Conn struct {
 	Dbc *gorm.DB
 }
 
-func Open() (Conn, error) {
+// NewService is the constructor for the Conn struct.
+
+func Open() (*Conn, error) {
 	dsn := "host=localhost user=postgres password=admin dbname=postgres1 port=5432 sslmode=disable TimeZone=Asia/Shanghai"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		return Conn{}, err
+		return &Conn{}, err
 	}
 
-	return Conn{Dbc: db}, nil
+	return &Conn{Dbc: db}, nil
 }
 func AutoMigrate(s *Conn) error {
 	//if s.db.Migrator().HasTable(&User{}) {
 	//	return nil
 	//}
 
-	err := s.Dbc.Migrator().DropTable(&User{}, &Company{}, &Job{})
-	if err != nil {
-		return err
-	}
-	err = s.Dbc.Migrator().AutoMigrate(&User{}, &Company{}, &Job{})
+	// err := s.Dbc.Migrator().DropTable(&User{}, &Company{}, &Job{})
+	// if err != nil {
+	// 	return err
+	// }
+	err := s.Dbc.Migrator().AutoMigrate(&User{}, &Company{}, &Job{})
 	if err != nil {
 		// If there is an error while migrating, log the error message and stop the program
 		return err

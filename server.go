@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/99designs/gqlgen/graphql/playground"
 	"graphql-project/graph"
 	"graphql-project/graph/model"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
 )
 
 const defaultPort = "8080"
@@ -23,14 +24,14 @@ func main() {
 		log.Printf("database connection failed")
 		return
 	}
-	err = model.AutoMigrate(&Con)
+	err = model.AutoMigrate(Con)
 	if err != nil {
 		log.Printf("failed to intialize tables")
 		return
 	}
 	log.Printf("database tables created")
 
-	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{S: Con}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)

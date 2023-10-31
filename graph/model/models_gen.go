@@ -6,14 +6,14 @@ import "gorm.io/gorm"
 
 type Company struct {
 	gorm.Model
-	ID       string `json:"Id"`
+	ID       int    `gorm:"primaryKey;autoIncrement"`
 	Name     string `json:"Name"`
 	Location string `json:"Location"`
 }
 
 type Job struct {
 	gorm.Model
-	JobID       string `json:"JobId"`
+	JobID       int    `gorm:"primaryKey;autoIncrement"`
 	Tittle      string `json:"Tittle"`
 	Description string `json:"Description"`
 	CompanyID   int    `json:"CompanyId"`
@@ -27,6 +27,7 @@ type NewCompany struct {
 type NewJob struct {
 	Tittle      string `json:"Tittle"`
 	Description string `json:"Description"`
+	CompanyID   int    `json:"CompanyId"`
 }
 
 type NewUser struct {
@@ -36,7 +37,7 @@ type NewUser struct {
 
 type User struct {
 	gorm.Model
-	ID    string `json:"Id"`
+	ID    int    `gorm:"primaryKey;autoIncrement"`
 	Name  string `json:"Name"`
 	Email string `json:"Email"`
 }

@@ -1,17 +1,17 @@
 type User{
-  Id: ID!
+  Id: Int!
   Name: String!
   Email: String!
 }
 
 type Company{
-  Id: ID!
+  Id: Int!
   Name: String!
   Location: String!
 }
 
 type Job{
-  JobId: ID!
+  JobId: Int!
   Tittle: String!
   Description: String!
   CompanyId : Int!
@@ -26,6 +26,7 @@ input NewUser{
 input NewJob{
   Tittle: String!
   Description: String!
+  CompanyId: Int!
 }
 
 input NewCompany{
@@ -36,13 +37,13 @@ input NewCompany{
 type Query{
   users: [User!]
 
-  user(Id:ID!):User!
+  user(Id:Int!):User!
 
-  company(Id:ID!):Company!
+  company(Id:Int!):Company!
 
   companies:[Company!]
 
-  job(JobId:ID!):Job
+  job(JobId:Int!):Job
 
   jobs: [Job!]
 }

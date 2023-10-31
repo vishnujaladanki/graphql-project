@@ -6,53 +6,61 @@ package graph
 
 import (
 	"context"
-	"fmt"
 	"graphql-project/graph/model"
 )
 
 // CreateUser is the resolver for the CreateUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: CreateUser - CreateUser"))
+	user, err := r.S.CreateU(ctx, input)
+	return user, err
 }
 
 // CreateCompany is the resolver for the CreateCompany field.
 func (r *mutationResolver) CreateCompany(ctx context.Context, input *model.NewCompany) (*model.Company, error) {
-	panic(fmt.Errorf("not implemented: CreateCompany - CreateCompany"))
+	com, err := r.S.CreateC(ctx, input)
+	return com, err
 }
 
 // CreateJob is the resolver for the CreateJob field.
 func (r *mutationResolver) CreateJob(ctx context.Context, input *model.NewJob) (*model.Job, error) {
-	panic(fmt.Errorf("not implemented: CreateJob - CreateJob"))
+	job, err := r.S.CreateJ(ctx, input)
+	return job, err
 }
 
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
-	panic(fmt.Errorf("not implemented: Users - users"))
+	users, err := r.S.GetAllUsers()
+	return users, err
 }
 
 // User is the resolver for the user field.
-func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: User - user"))
+func (r *queryResolver) User(ctx context.Context, id int) (*model.User, error) {
+	user, err := r.S.GetUserById(id)
+	return user, err
 }
 
 // Company is the resolver for the company field.
-func (r *queryResolver) Company(ctx context.Context, id string) (*model.Company, error) {
-	panic(fmt.Errorf("not implemented: Company - company"))
+func (r *queryResolver) Company(ctx context.Context, id int) (*model.Company, error) {
+	company, err := r.S.GetCompanyById(id)
+	return company, err
 }
 
 // Companies is the resolver for the companies field.
 func (r *queryResolver) Companies(ctx context.Context) ([]*model.Company, error) {
-	panic(fmt.Errorf("not implemented: Companies - companies"))
+	companies, err := r.S.GetAllCompanies()
+	return companies, err
 }
 
 // Job is the resolver for the job field.
-func (r *queryResolver) Job(ctx context.Context, jobID string) (*model.Job, error) {
-	panic(fmt.Errorf("not implemented: Job - job"))
+func (r *queryResolver) Job(ctx context.Context, JobId int) (*model.Job, error) {
+	job, err := r.S.GetJobById(JobId)
+	return job, err
 }
 
 // Jobs is the resolver for the jobs field.
 func (r *queryResolver) Jobs(ctx context.Context) ([]*model.Job, error) {
-	panic(fmt.Errorf("not implemented: Jobs - jobs"))
+	jobs, err := r.S.GetAllJobs()
+	return jobs, err
 }
 
 // Mutation returns MutationResolver implementation.

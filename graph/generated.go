@@ -68,10 +68,10 @@ type ComplexityRoot struct {
 
 	Query struct {
 		Companies func(childComplexity int) int
-		Company   func(childComplexity int, id string) int
-		Job       func(childComplexity int, jobID string) int
+		Company   func(childComplexity int, id int) int
+		Job       func(childComplexity int, jobID int) int
 		Jobs      func(childComplexity int) int
-		User      func(childComplexity int, id string) int
+		User      func(childComplexity int, id int) int
 		Users     func(childComplexity int) int
 	}
 
@@ -89,10 +89,10 @@ type MutationResolver interface {
 }
 type QueryResolver interface {
 	Users(ctx context.Context) ([]*model.User, error)
-	User(ctx context.Context, id string) (*model.User, error)
-	Company(ctx context.Context, id string) (*model.Company, error)
+	User(ctx context.Context, id int) (*model.User, error)
+	Company(ctx context.Context, id int) (*model.Company, error)
 	Companies(ctx context.Context) ([]*model.Company, error)
-	Job(ctx context.Context, jobID string) (*model.Job, error)
+	Job(ctx context.Context, jobID int) (*model.Job, error)
 	Jobs(ctx context.Context) ([]*model.Job, error)
 }
 
@@ -217,7 +217,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Company(childComplexity, args["Id"].(string)), true
+		return e.complexity.Query.Company(childComplexity, args["Id"].(int)), true
 
 	case "Query.job":
 		if e.complexity.Query.Job == nil {
@@ -229,7 +229,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Job(childComplexity, args["JobId"].(string)), true
+		return e.complexity.Query.Job(childComplexity, args["JobId"].(int)), true
 
 	case "Query.jobs":
 		if e.complexity.Query.Jobs == nil {
@@ -248,7 +248,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.User(childComplexity, args["Id"].(string)), true
+		return e.complexity.Query.User(childComplexity, args["Id"].(int)), true
 
 	case "Query.users":
 		if e.complexity.Query.Users == nil {
@@ -468,10 +468,10 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 func (ec *executionContext) field_Query_company_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["Id"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Id"))
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -483,10 +483,10 @@ func (ec *executionContext) field_Query_company_args(ctx context.Context, rawArg
 func (ec *executionContext) field_Query_job_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["JobId"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("JobId"))
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -498,10 +498,10 @@ func (ec *executionContext) field_Query_job_args(ctx context.Context, rawArgs ma
 func (ec *executionContext) field_Query_user_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 string
+	var arg0 int
 	if tmp, ok := rawArgs["Id"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Id"))
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -574,9 +574,9 @@ func (ec *executionContext) _Company_Id(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Company_Id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -586,7 +586,7 @@ func (ec *executionContext) fieldContext_Company_Id(ctx context.Context, field g
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -706,9 +706,9 @@ func (ec *executionContext) _Job_JobId(ctx context.Context, field graphql.Collec
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Job_JobId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -718,7 +718,7 @@ func (ec *executionContext) fieldContext_Job_JobId(ctx context.Context, field gr
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -1110,7 +1110,7 @@ func (ec *executionContext) _Query_user(ctx context.Context, field graphql.Colle
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().User(rctx, fc.Args["Id"].(string))
+		return ec.resolvers.Query().User(rctx, fc.Args["Id"].(int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1173,7 +1173,7 @@ func (ec *executionContext) _Query_company(ctx context.Context, field graphql.Co
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Company(rctx, fc.Args["Id"].(string))
+		return ec.resolvers.Query().Company(rctx, fc.Args["Id"].(int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1285,7 +1285,7 @@ func (ec *executionContext) _Query_job(ctx context.Context, field graphql.Collec
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Job(rctx, fc.Args["JobId"].(string))
+		return ec.resolvers.Query().Job(rctx, fc.Args["JobId"].(int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1539,9 +1539,9 @@ func (ec *executionContext) _User_Id(ctx context.Context, field graphql.Collecte
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_User_Id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1551,7 +1551,7 @@ func (ec *executionContext) fieldContext_User_Id(ctx context.Context, field grap
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -3463,7 +3463,7 @@ func (ec *executionContext) unmarshalInputNewJob(ctx context.Context, obj interf
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"Tittle", "Description"}
+	fieldsInOrder := [...]string{"Tittle", "Description", "CompanyId"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -3488,6 +3488,15 @@ func (ec *executionContext) unmarshalInputNewJob(ctx context.Context, obj interf
 				return it, err
 			}
 			it.Description = data
+		case "CompanyId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("CompanyId"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.CompanyID = data
 		}
 	}
 
@@ -4278,21 +4287,6 @@ func (ec *executionContext) marshalNCompany2ᚖgraphqlᚑprojectᚋgraphᚋmodel
 		return graphql.Null
 	}
 	return ec._Company(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalNID2string(ctx context.Context, v interface{}) (string, error) {
-	res, err := graphql.UnmarshalID(v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.SelectionSet, v string) graphql.Marshaler {
-	res := graphql.MarshalID(v)
-	if res == graphql.Null {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-	}
-	return res
 }
 
 func (ec *executionContext) unmarshalNInt2int(ctx context.Context, v interface{}) (int, error) {
